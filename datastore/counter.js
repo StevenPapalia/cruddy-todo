@@ -15,7 +15,7 @@ const zeroPaddedNumber = (num) => {
   return sprintf('%05d', num);
 };
 
-// var rC = function(callBack { readFile(path, fn(err, fD) { callback(d)}         )})
+// var rC = function(callback { readFile(path, fn(err, fD) { callback(d)}         )})
 const readCounter = (callback) => {
   fs.readFile(exports.counterFile, (err, fileData) => {
     if (err) {
@@ -40,22 +40,19 @@ const writeCounter = (count, callback) => {
 
 // Public API - Fix this function //////////////////////////////////////////////
 
-exports.getNextUniqueId = () => {
+exports.getNextUniqueId = (callback) => {
+  console.log('callback:', callback);
   // GOAL: WriteData(ReadData+1)
   // readCounter: input: callback
   // callback: err, fileData
   // write(read+1, callback); WRONG
   //read(write(readValue+1))
   readCounter( (err, fileData) => {
-    writeCounter( fileData, (err) => {
-      console.log(fileData + 1);
+    var count = fileData + 1;
+    writeCounter( count, (err) => {
+      callback(err, zeroPaddedNumber(count));
     });
   });
-  // writeCounter(currentCount + 1, callback);
-
-
-  // counter = counter + 1;
-  // return zeroPaddedNumber(counter);
 };
 
 
