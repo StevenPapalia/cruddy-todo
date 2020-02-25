@@ -8,9 +8,63 @@ var items = {};
 // Public API - Fix these CRUD functions ///////////////////////////////////////
 
 exports.create = (text, callback) => {
-  var id = counter.getNextUniqueId();
+  counter.getNextUniqueId(function(err, id) {
+
+    fs.writeFile(exports.dataDir.concat('/', id), {id, text}, (err) => {
+      if (err) {
+        throw ('error writing counter');
+      } else {
+        console.log('amost there');
+        callback(null, id);
+      }
+    });
+
+
+  });
+  console.log('id:', id);
   items[id] = text;
-  callback(null, { id, text });
+  // fs.writefile with name of id.txt
+  // fs.writeFile(exports.dataDir.concat('/', id), {id, text}, (err) => {
+  //   if (err) {
+  //     throw ('error writing counter');
+  //   } else {
+  //     console.log('amost there');
+  //     callback(null, id);
+  //   }
+
+
+
+
+
+  // exports.getNextUniqueId = (callback) => {
+  //   // GOAL: WriteData(ReadData+1)
+  //   // readCounter: input: callback
+  //   // callback: err, fileData
+  //   // write(read+1, callback); WRONG
+  //   //read(write(readValue+1)); RIGHT
+  //   readCounter( (err, fileData) => {
+  //     var count = fileData + 1;
+  //     writeCounter( count, (err) => {
+  //       callback(err, zeroPaddedNumber(count));
+  //     });
+  //   });
+  // };
+
+
+
+
+  // fs.writeFile(exports.counterFile, counterString, (err) => {
+  //   if (err) {
+  //     throw ('error writing counter');
+  //   } else {
+  //     callback(null, counterString);
+  //   }
+  // });
+
+
+  // write(id, call)
+  // counter.writeCounter(id, callback( null, {id, text} ) );
+  //callback(null, { id, text });
 };
 
 exports.readAll = (callback) => {

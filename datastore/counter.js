@@ -41,18 +41,19 @@ const writeCounter = (count, callback) => {
 // Public API - Fix this function //////////////////////////////////////////////
 
 exports.getNextUniqueId = (callback) => {
-  console.log('callback:', callback);
   // GOAL: WriteData(ReadData+1)
   // readCounter: input: callback
   // callback: err, fileData
   // write(read+1, callback); WRONG
   //read(write(readValue+1))
   readCounter( (err, fileData) => {
-    var count = fileData + 1;
-    writeCounter( count, (err) => {
-      callback(err, zeroPaddedNumber(count));
-    });
+    writeCounter( fileData + 1, callback );
   });
+  // writeCounter(currentCount + 1, callback);
+
+
+  // counter = counter + 1;
+  // return zeroPaddedNumber(counter);
 };
 
 
