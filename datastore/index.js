@@ -17,7 +17,6 @@ exports.create = (text, callback) => {
       if (err) {
         throw (err);
       } else {
-        items[id] = todo;
         callback(err, todo);
       }
     } );
